@@ -176,7 +176,13 @@ set(QtnProperty_HEADER
     Delegates/GUI/PropertyDelegateQVector3D.h
 )
 
-qt_add_translation(QtnProperty_QM Translations/en.ts Translations/ru.ts)
+#qt_add_translation(QtnProperty_QM Translations/en.ts Translations/ru.ts)
+get_target_property(qmake_exec_filepath Qt5::qmake IMPORTED_LOCATION)
+message(STATUS "QMake path: ${qmake_exec_filepath}")
+get_filename_component(qt_exec_bin_dir "${qmake_exec_filepath}" DIRECTORY)
+find_program(lrelease_exec_filepath lrelease HINTS "${qt_exec_bin_dir}")
+message(STATUS "lrelease_exec_filepath path: ${lrelease_exec_filepath}")
+
 qt_add_resources(QtnProperty_RC QtnProperty.qrc)
 qt_wrap_ui(QtnProperty_UI_HEADER
     CustomPropertyEditorDialog.ui
@@ -184,7 +190,19 @@ qt_wrap_ui(QtnProperty_UI_HEADER
     Utils/MultilineTextDialog.ui
 )
 
-add_library(QtnProperty SHARED ${QtnProperty_SRC} ${QtnProperty_HEADER} ${QtnProperty_QM} ${QtnProperty_RC} ${QtnProperty_UI_HEADER})
+add_library(QtnProperty SHARED ${QtnProperty_SRC} ${QtnProperty_HEADER} ${QtnProperty_RC} ${QtnProperty_UI_HEADER})
+add_custom_command(TARGET QtnProperty PRE_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E
+        env PATH="${qt_exec_bin_dir}"
+        "${lrelease_exec_filepath}" "${CMAKE_CURRENT_SOURCE_DIR}/Translations/en.ts"
+        COMMENT "Running lrelease..."
+        )
+add_custom_command(TARGET QtnProperty PRE_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E
+        env PATH="${qt_exec_bin_dir}"
+        "${lrelease_exec_filepath}" "${CMAKE_CURRENT_SOURCE_DIR}/Translations/ru.ts"
+        COMMENT "Running lrelease..."
+        )
 
 target_compile_definitions(QtnProperty PRIVATE QTN_DYNAMIC_LIBRARY QTN_DYNAMIC_IMPORT)
 
