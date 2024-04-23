@@ -17,4 +17,8 @@ find_package(Qt5 REQUIRED COMPONENTS Core Widgets LinguistTools)
 
 add_subdirectory(QtnProperty)
 
+# Demo, PEG and Tests are not added to CMake
+# Due to the dependency to QSrcipt and Bison/Flex
+# handling them requires more work
+
 add_subdirectory(Demo/Simple)

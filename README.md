@@ -1,5 +1,30 @@
 [![Build Status](https://travis-ci.org/qtinuum/QtnProperty.svg?branch=master)](https://travis-ci.org/qtinuum/QtnProperty)
 
+# Important notice
+
+This project is forked from https://github.com/qtinuum/QtnProperty
+And I did the followings:
+
++ Created a branch `cmake-non-script` to hold my modifications
++ Added some CMake files so the project can be compiled, installed, and utilized through CMake
++ Added a demo (Demo/Simple/CMakeLists.txt) showing how to use the CMake version of QtnProperty
++ Removed the QSrcipt dependency, by deleting a few functions from `QtnProperty/PropertyBase.h/cpp`
+
+> This module (Qt Script) is not actively developed. It is provided for backwards compatibility with Qt 4 only. For new code, use QJSEngine and related classes in the Qt QML module instead.
+
+
+# 更改说明
+
+该项目是从 https://github.com/qtinuum/QtnProperty 分叉的
+我做了以下事情：
+
++ 创建了一个分支“cmake-non-script”来保存我的修改
++ 添加了一些 CMake 文件，以便可以通过 CMake 编译、安装和使用项目
++ 添加了一个小的 Demo（Demo/Simple/CMakeLists.txt），如何使用 QtnProperty 的 CMake 版本
++ 通过从“QtnProperty/PropertyBase.h/cpp”中删除一些函数，删除了 QSrcipt 依赖项
+
+> This module (Qt Script) is not actively developed. It is provided for backwards compatibility with Qt 4 only. For new code, use QJSEngine and related classes in the Qt QML module instead.
+
 # QtnProperty
 This is user and programmer friendly properties for Qt framework.
 See [wiki](https://github.com/qtinuum/QtnProperty/wiki) for some details.
