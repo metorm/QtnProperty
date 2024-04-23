@@ -189,7 +189,28 @@ add_library(QtnProperty SHARED ${QtnProperty_SRC} ${QtnProperty_HEADER} ${QtnPro
 target_compile_definitions(QtnProperty PRIVATE QTN_DYNAMIC_LIBRARY QTN_DYNAMIC_IMPORT)
 
 target_link_libraries(QtnProperty PRIVATE Qt::Core Qt::Widgets)
-target_include_directories(QtnProperty PUBLIC ${PROJECT_SOURCE_DIR})
+target_include_directories(QtnProperty PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}> $<INSTALL_INTERFACE:include>)
 target_include_directories(QtnProperty PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(QtnProperty PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+# install
+
+install(TARGETS QtnProperty
+    EXPORT QtnProperty-targets
+    PUBLIC_HEADER DESTINATION include
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin)
+
+install(EXPORT QtnProperty-targets
+    NAMESPACE QtnProperty::
+    FILE QtnPropertyConfig.cmake
+    DESTINATION lib/cmake/QtnProperty)
+
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/" # source directory
+        DESTINATION "include/QtnProperty" # target directory
+        FILES_MATCHING # install only matched files
+        PATTERN "*.h" # select header files
+        PATTERN "Translations*" EXCLUDE
+)
 

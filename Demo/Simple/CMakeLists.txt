@@ -1,10 +1,29 @@
 cmake_minimum_required(VERSION 3.18)
 
+project(QtnPropertyDemoSimple)
+
+# if you are writing a regular project, simply remove the if()/endif() lines (but keep the inside lines)
+if(PROJECT_IS_TOP_LEVEL)
+    set(CMAKE_AUTOUIC ON)
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTORCC ON)
+
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+    find_package(Qt5 REQUIRED COMPONENTS Core Widgets LinguistTools)
+    find_package(QtnProperty REQUIRED)
+endif()
+
 set(DemoSimple_SRC main.cpp)
 
 add_executable(DemoSimple ${DemoSimple_SRC})
 target_link_libraries(DemoSimple PRIVATE Qt::Core Qt::Widgets)
-target_link_libraries(DemoSimple PRIVATE QtnProperty)
+if(PROJECT_IS_TOP_LEVEL)
+    target_link_libraries(DemoSimple PRIVATE QtnProperty::QtnProperty)
+else()
+    target_link_libraries(DemoSimple PRIVATE QtnProperty)
+endif()
 
 add_custom_command(TARGET DemoSimple POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:DemoSimple> $<TARGET_FILE_DIR:DemoSimple>
